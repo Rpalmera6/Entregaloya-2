@@ -1,4 +1,4 @@
-# api.py - EntregaLoYa (actualizado: CORS preflight + categorias + logging)
+# api.py - EntregaLoYa (corregido para deploy en plataformas tipo Render)
 import os
 import time
 from datetime import datetime
@@ -9,8 +9,8 @@ from flask_cors import CORS
 import pymysql
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-    
-# ----- Config -----
+
+# ----- Config ----- #
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -18,33 +18,56 @@ app = Flask(__name__, static_folder="static", template_folder="templates")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = os.getenv('FLASK_SECRET', 'dev-secret-key')
 
-# cookies / session for local dev (in prod revisar SameSite y Secure)
+# Cookie security (configurable via env)
+SESSION_COOKIE_SECURE = os.getenv('SESSION_COOKIE_SECURE', 'false').lower() == 'true'
+SESSION_COOKIE_SAMESITE = os.getenv('SESSION_COOKIE_SAMESITE', 'None')  # 'None', 'Lax' or 'Strict'
+
 app.config['SESSION_COOKIE_HTTPONLY'] = True
-# NOTE: None permite envío cross-site en desarrollo (para cookies). En producción usa 'Lax' o 'Strict' y HTTPS.
-app.config['SESSION_COOKIE_SAMESITE'] = None 
-app.config['SESSION_COOKIE_SECURE'] = False
+# NOTE: SameSite None requiere Secure=True en navegadores modernos. Configúralo según tu entorno.
+app.config['SESSION_COOKIE_SAMESITE'] = None if SESSION_COOKIE_SAMESITE.lower() == 'none' else SESSION_COOKIE_SAMESITE
+app.config['SESSION_COOKIE_SECURE'] = SESSION_COOKIE_SECURE
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Orígenes permitidos (ajusta si tu front corre en otra url)
 ALLOWED_ORIGINS = {
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
     # agrega aquí otros orígenes si los usas, ej "http://localhost:5174"
 }
 
-# Inicializamos CORS (esto ayuda, pero reforzamos con before_request/after_request)
+# Inicializamos CORS
 CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": list(ALLOWED_ORIGINS)}})
 
 
-# ----- DB helper -----
+# ----- DB helper ----- #
 def connect_to_db():
+    """
+    Conexión robusta a MySQL. Asegúrate de tener las vars de entorno:
+    MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB, MYSQL_PORT
+    """
+    port_env = os.getenv('MYSQL_PORT')
+    try:
+        port = int(port_env) if port_env is not None else 3306
+    except ValueError:
+        port = 3306
+
+    host = os.getenv('MYSQL_HOST')
+    user = os.getenv('MYSQL_USER')
+    password = os.getenv('MYSQL_PASSWORD', '')
+    database = os.getenv('MYSQL_DB')
+
+    if not host or not user or not database:
+        # Mejor logear y lanzar error controlado para facilitar debugging en deploy
+        app.logger.error("Missing MySQL env vars. Require MYSQL_HOST, MYSQL_USER, MYSQL_DB")
+        raise RuntimeError("Missing MySQL configuration (MYSQL_HOST, MYSQL_USER, MYSQL_DB)")
+
     return pymysql.connect(
-        host=os.getenv('MYSQL_HOST'),
-        user=os.getenv('MYSQL_USER'),
-        password=os.getenv('MYSQL_PASSWORD', ''),
-        database=os.getenv('MYSQL_DB'),
-        port=int(os.getenv('MYSQL_PORT')),
+        host=host,
+        user=user,
+        password=password,
+        database=database,
+        port=port,
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=False
     )
@@ -58,17 +81,15 @@ def _data_json_or_form():
     return request.get_json(silent=True) or request.form.to_dict() or {}
 
 
-# ----- CORS: preflight y headers en todas las respuestas -----
+# ----- CORS: preflight y headers en todas las respuestas ----- #
 @app.before_request
 def handle_preflight():
-    # Responder OPTIONS para preflight con cabeceras necesarias
     if request.method == 'OPTIONS':
         origin = request.headers.get('Origin', '')
         resp = make_response(('', 200))
         if origin and origin in ALLOWED_ORIGINS:
             resp.headers['Access-Control-Allow-Origin'] = origin
         else:
-            # si origin está vacío o no está en la lista, aún devolvemos la cabecera (puedes restringir)
             resp.headers['Access-Control-Allow-Origin'] = origin or ''
         resp.headers['Access-Control-Allow-Credentials'] = 'true'
         resp.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
@@ -81,14 +102,13 @@ def add_cors_headers(response):
     origin = request.headers.get('Origin')
     if origin and origin in ALLOWED_ORIGINS:
         response.headers['Access-Control-Allow-Origin'] = origin
-    # Si usas credentials true, Access-Control-Allow-Origin NO PUEDE ser '*'
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
     return response
 
 
-# ----- Auth / decorators -----
+# ----- Auth / decorators ----- #
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -115,7 +135,7 @@ def role_required(role):
     return decorator
 
 
-# ----- Routes -----
+# ----- Routes ----- #
 @app.route('/api/ping', methods=['GET', 'OPTIONS'])
 def ping():
     if request.method == 'OPTIONS':
@@ -144,7 +164,7 @@ def api_get_categorias():
             pass
 
 
-# ---------- AUTH ----------
+# ---------- AUTH ---------- #
 @app.route('/api/auth/register', methods=['POST', 'OPTIONS'])
 def api_register():
     if request.method == 'OPTIONS':
@@ -261,7 +281,7 @@ def api_logout():
     return jsonify({"ok": True, "msg": "Logout"}), 200
 
 
-# ---------- NEGOCIOS ----------
+# ---------- NEGOCIOS ---------- #
 @app.route('/api/negocios', methods=['GET', 'OPTIONS'])
 def api_negocios():
     if request.method == 'OPTIONS':
@@ -314,7 +334,7 @@ def api_negocio_get(negocio_id):
             pass
 
 
-# ---------- PRODUCTOS (CRUD) ----------
+# ---------- PRODUCTOS (CRUD) ---------- #
 @app.route('/api/negocios/<int:negocio_id>/productos', methods=['GET', 'POST', 'OPTIONS'])
 @login_required
 @role_required('negocio')
@@ -458,7 +478,7 @@ def api_producto_manage(prod_id):
             pass
 
 
-# ---------- PEDIDOS ----------
+# ---------- PEDIDOS ---------- #
 @app.route('/api/pedidos', methods=['POST', 'OPTIONS'])
 def api_create_pedido():
     if request.method == 'OPTIONS':
@@ -697,8 +717,11 @@ def api_pedido_negocio_update(pedido_id):
             pass
 
 
-# ----- Run -----
+# ----- Run (solo si se ejecuta directamente) ----- #
 if __name__ == '__main__':
-    # Muestra info útil en consola para debugging (puedes remover en producción)
-    app.logger.info("Starting EntregaLoYa API (dev mode). Allowed origins: %s", ", ".join(ALLOWED_ORIGINS))
-    app.run(debug=True, host='127.0.0.1', port=int(os.getenv('PORT', 5000)))
+    # Info útil en consola para debugging local
+    app.logger.info("Starting EntregaLoYa API. Allowed origins: %s", ", ".join(ALLOWED_ORIGINS))
+    port = int(os.getenv('PORT', 5000))
+    debug = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
+    # Bind a 0.0.0.0 para que PaaS (Render, Heroku) detecten el puerto abierto
+    app.run(debug=debug, host='0.0.0.0', port=port)
