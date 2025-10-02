@@ -1,5 +1,5 @@
 // src/services/api.ts
-export const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
+export const API_BASE = import.meta.env.VITE_API_URL || "https://entregaloya-2.onrender.com";
 
 async function safeJson(res: Response) {
   try { return await res.json(); } catch { return {}; }
