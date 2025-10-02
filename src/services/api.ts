@@ -1,10 +1,8 @@
 // src/services/api.ts
 const DEFAULT_LOCAL = "http://localhost:5000";
-
-// Preferencia de configuración (build-time via VITE_API_URL)
 const BUILD_API = import.meta.env.VITE_API_URL || "";
 
-// Runtime override (útil para ngrok / testing): window.__API_BASE__ = "https://xxxxx.ngrok.io"
+// Runtime override (útil para ngrok/testing): window.__API_BASE__ = "https://xxxxx.ngrok.io"
 function runtimeApiBase(): string | null {
   // @ts-ignore
   if (typeof window !== "undefined" && window.__API_BASE__) {
@@ -23,7 +21,6 @@ async function safeJson(res: Response) {
 }
 
 function buildUrl(path: string) {
-  // asegúrate de que path empiece con '/'
   if (!path.startsWith("/")) path = "/" + path;
   return `${API_BASE}${path}`;
 }
@@ -54,11 +51,9 @@ async function doFetch(url: string, opts: RequestInit = {}) {
     return res;
   } catch (err: any) {
     if (err.name === 'AbortError') {
-      // timeout
       console.error('[api] request timeout:', url);
       throw new Error('timeout');
     }
-    // Network error (CORS / DNS / connection refused)
     console.error('[api] network error fetching', url, err);
     throw err;
   }
@@ -107,12 +102,12 @@ export async function putJson(path: string, body: any) {
 
 /**
  * getImageUrl(relativePath)
- * Devuelve la URL procesada por Vite para assets locales (desde código en /src).
  */
 export function getImageUrl(relativePath: string): string {
   try {
     return new URL(relativePath, import.meta.url).href;
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error('getImageUrl error for', relativePath, e);
     return relativePath;
   }
