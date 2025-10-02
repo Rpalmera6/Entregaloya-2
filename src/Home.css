@@ -1,0 +1,123 @@
+.home-container {
+  background-color: #f7f3e9;
+  min-height: 100vh;
+}
+
+/* --- Navbar --- */
+
+/* --- Hero Section --- */
+.hero-section {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #4dc2f2;
+  color: white;
+}
+
+.hero-title {
+  font-size: 3em;
+  margin: 0;
+  font-weight: 700;
+}
+
+.hero-subtitle {
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 30px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-box input {
+  border: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  margin: 0 5px;
+  background-color: #f0f0f0;
+  flex: 1;
+}
+
+.search-box button {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* --- Featured Businesses Section --- */
+.featured-businesses-section {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.section-header h2 {
+  font-size: 2.5em;
+  color: #333;
+}
+
+.section-header p {
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+}
+
+/* --- Footer --- */
+.main-footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+/* --- Media Queries for Responsiveness --- */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 15px;
+  }
+  
+  .nav-links {
+    display: none; /* Oculta los enlaces en móviles para simplificar */
+  }
+
+  .nav-actions {
+    margin-top: 15px;
+  }
+
+  .hero-title {
+    font-size: 2em;
+  }
+
+  .hero-subtitle {
+    font-size: 1em;
+  }
+
+  .search-box {
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 15px;
+  }
+
+  .search-box input {
+    margin: 5px 0;
+    width: 100%;
+  }
+
+  .search-box button {
+    margin-top: 10px;
+    width: 100%;
+  }
+}

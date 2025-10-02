@@ -1,0 +1,271 @@
+/* SearchResults.css - Diseño Moderno */
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.search-results-content {
+  padding: 40px 20px 80px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%);
+}
+
+/* ===== HEADER DE BÚSQUEDA ===== */
+.search-header {
+  text-align: center;
+  margin-bottom: 50px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #0a5960 0%, #0d7882 100%);
+  border-radius: 20px;
+  color: #fff;
+  box-shadow: 0 10px 40px rgba(10, 89, 96, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.search-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.search-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 15px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.search-subtitle {
+  font-size: 1.2rem;
+  margin: 0 0 30px;
+  opacity: 0.95;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== CAJA DE BÚSQUEDA ===== */
+.search-box {
+  display: flex;
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.95);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.search-box input::placeholder {
+  color: #999;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #f39c12;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(243, 156, 18, 0.3);
+  transform: translateY(-2px);
+}
+
+.search-box button {
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+  min-width: 60px;
+}
+
+.search-box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+}
+
+.search-box button:active {
+  transform: translateY(0);
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.main-content {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ===== SIDEBAR DE FILTROS ===== */
+.filter-sidebar {
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.filter-sidebar h3 {
+  font-size: 1.5rem;
+  color: #0a5960;
+  margin: 0 0 20px;
+  font-weight: 700;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #f39c12;
+}
+
+.filter-group {
+  margin-bottom: 25px;
+}
+
+.filter-group label {
+  display: block;
+  font-weight: 600;
+  color: #0a5960;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.filter-group select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: #0a5960;
+  box-shadow: 0 0 0 3px rgba(10, 89, 96, 0.1);
+}
+
+/* ===== GRID DE RESULTADOS ===== */
+.results-grid h2 {
+  font-size: 2rem;
+  color: #0a5960;
+  margin: 0 0 30px;
+  font-weight: 700;
+}
+
+.negocios-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+/* ===== ESTADOS VACÍOS Y ERRORES ===== */
+.results-grid > p {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.1rem;
+  color: #999;
+}
+
+.error {
+  background: linear-gradient(135deg, #fee 0%, #fcc 100%);
+  color: #c33;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid #faa;
+  font-weight: 600;
+}
+
+/* ===== ANIMACIONES ===== */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-sidebar {
+    position: static;
+  }
+
+  .negocios-list {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .search-results-content {
+    padding: 20px 15px 60px;
+  }
+
+  .search-header {
+    padding: 30px 20px;
+  }
+
+  .search-title {
+    font-size: 2rem;
+  }
+
+  .search-subtitle {
+    font-size: 1rem;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box button {
+    width: 100%;
+  }
+
+  .main-content {
+    gap: 25px;
+  }
+
+  .results-grid h2 {
+    font-size: 1.6rem;
+  }
+
+  .negocios-list {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-title {
+    font-size: 1.7rem;
+  }
+
+  .search-box input {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+  }
+}

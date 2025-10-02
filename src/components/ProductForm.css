@@ -1,0 +1,12 @@
+/* src/components/ProductForm.css */
+.pf-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; z-index:1300;
+}
+.pf-modal {
+  width: 100%; max-width: 540px; background: #fff; padding: 18px; border-radius: 8px; position:relative;
+}
+.pf-close { position:absolute; right:12px; top:10px; border:none; background:transparent; font-size:18px; cursor:pointer; }
+.pf-form .pf-row { margin-bottom:10px; display:flex; flex-direction:column; gap:6px; }
+.pf-form input, .pf-form textarea { padding:8px; border-radius:6px; border:1px solid #ddd; width:100%; }
+.pf-form button { padding:10px 14px; border-radius:8px; border:none; background:#f39c12; color:#fff; font-weight:700; cursor:pointer; }
+.pf-form button[type="button"] { background:#ccc; color:#111; }

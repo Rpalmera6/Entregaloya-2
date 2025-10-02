@@ -1,0 +1,458 @@
+/* Colores base */
+:root{
+  --bg: #e7f8f9; /* fondo general muy claro */
+  --card-bg: #eef9fa; /* tarjetas */
+  --accent: #0a5960; /* texto principal oscuro */
+  --muted: #7b9a9c;
+  --card-border: rgba(10,89,96,0.06);
+
+  /* Nuevos tonos para botones/estados */
+  --primary-btn: var(--accent);
+  --primary-btn-hover: #063c40;
+  --danger-btn: #ff6b6b;
+  --danger-btn-hover: #e04a4a;
+}
+
+/* Contenedor full width */
+.dn-page {
+  background: var(--bg);
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  color: var(--accent);
+}
+
+/* Aseguramos que dn-container tenga padding y se alinee al max-width */
+.dn-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 20px; /* padding principal */
+}
+
+/* ---------------- Header & Navegación ---------------- */
+
+/* Header grande */
+.dn-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+.dn-header h1 {
+  font-size: 44px;
+  margin: 0;
+  line-height: 1;
+}
+.dn-subtitle {
+  margin: 8px 0 0 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* botón y badge en header */
+.dn-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dn-badge {
+  background: rgba(255,255,255,0.6);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight: 600;
+}
+.dn-badge-icon { font-size: 20px; }
+
+/* Logout estilizado */
+.dn-logout {
+  background: transparent;
+  border: 1px solid rgba(10,89,96,0.12);
+  color: var(--accent);
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.dn-logout:hover { 
+  background: rgba(10,89,96,0.03); 
+  border-color: var(--accent);
+}
+
+/* Banner de bienvenida (card tipo info) */
+.dn-welcome {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0.4));
+  border: 1px solid var(--card-border);
+  padding: 18px;
+  border-radius: 10px;
+  margin: 20px 0;
+  align-items: center;
+}
+.dn-welcome-left h3 { margin: 0 0 6px 0; font-size: 18px; }
+.dn-welcome-left p { margin: 0; color: var(--muted); font-size: 14px; }
+
+/* icono info a la derecha */
+.dn-welcome-icon {
+  font-size: 26px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+}
+
+/* ---------------- Metrics y Cards ---------------- */
+
+/* Grid de metrics */
+.dn-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-top: 18px;
+}
+
+/* Card metric */
+.dn-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 22px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.6), 0 4px 6px rgba(10,89,96,0.03);
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.dn-card-value {
+  font-weight: 700;
+  font-size: 32px; /* Aumentamos el tamaño */
+}
+.dn-card-sub {
+  color: var(--muted);
+  margin-top: 6px;
+  font-size: 13px;
+}
+.dn-card-title {
+  margin-top: 14px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ---------------- Secciones y Títulos ---------------- */
+
+.dn-section {
+  margin-top: 40px;
+}
+.dn-section-header {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* border-bottom: 1px solid var(--card-border); */
+  padding-bottom: 10px;
+}
+.dn-section-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ---------------- Tablas (Pedidos) ---------------- */
+
+.dn-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden; 
+  box-shadow: 0 4px 12px rgba(10,89,96,0.05);
+}
+.dn-table thead {
+  background: var(--card-bg);
+  color: var(--accent);
+}
+.dn-table th, .dn-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--card-border);
+}
+.dn-table th {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.dn-table tbody tr:hover {
+  background: rgba(10,89,96,0.02);
+  cursor: pointer;
+}
+.dn-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ---------------- Status Badges (Estados del Pedido) ---------------- */
+
+.dn-status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+  line-height: 1;
+}
+.dn-status-badge.pendiente {
+  background-color: #ffebcc; 
+  color: #cc8400; 
+}
+.dn-status-badge.confirmado {
+  background-color: #d0f0c0; 
+  color: #3b7625; 
+}
+.dn-status-badge.cancelado {
+  background-color: #ffdddd; 
+  color: #cc3333; 
+}
+
+/* ---------------- Formularios y Botones (Generales y Modal) ---------------- */
+
+/* Botones Grandes */
+.btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid transparent; /* Base */
+}
+.btn.primary {
+  background: var(--primary-btn);
+  color: white;
+  border-color: var(--primary-btn);
+}
+.btn.primary:hover:not(:disabled) {
+  background: var(--primary-btn-hover);
+  border-color: var(--primary-btn-hover);
+}
+.btn.secondary, .btn.btn-ghost {
+  background: transparent;
+  color: var(--accent);
+  border-color: rgba(10,89,96,0.15);
+}
+.btn.secondary:hover:not(:disabled), .btn.btn-ghost:hover:not(:disabled) {
+  background: rgba(10,89,96,0.05);
+}
+.btn.danger { 
+  background: var(--danger-btn); 
+  color: white; 
+  border-color: var(--danger-btn); 
+}
+.btn.danger:hover:not(:disabled) {
+    background: var(--danger-btn-hover);
+    border-color: var(--danger-btn-hover);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Botones Pequeños */
+.small-btn {
+  background: #e9ecef;
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+.small-btn:hover:not(:disabled) {
+    background: #dde2e6;
+}
+.small-btn.danger { 
+    background: #ff6b6b; 
+    color: white; 
+    border-color: #e04a4a; 
+}
+.small-btn.danger:hover:not(:disabled) {
+    background: #e04a4a;
+}
+
+/* Controles de Formulario */
+.form-row {
+  margin-bottom: 18px;
+}
+.form-row label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.form-control, .dn-modal-content select, .dn-modal-content input, .dn-modal-content textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid rgba(10,89,96,0.15); /* Usar un borde más visible */
+  border-radius: 8px;
+  background: #fff;
+  font-size: 16px;
+  box-sizing: border-box;
+  color: var(--accent);
+  transition: border-color 0.2s;
+}
+.form-control:focus, .dn-modal-content select:focus, .dn-modal-content input:focus, .dn-modal-content textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(10,89,96,0.2);
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end; 
+}
+
+/* ---------------- Modal ---------------- */
+
+.dn-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro más opaco */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+.dn-modal-content {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+.dn-modal-content h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(10,89,96,0.1);
+  padding-bottom: 10px;
+}
+.dn-modal-content .form-actions {
+  margin-top: 25px;
+  justify-content: flex-end;
+}
+
+/* Mensajes de error/info */
+.dn-error-message, .dn-info-message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+.dn-error-message {
+    background: #ffe3e3;
+    border: 1px solid #ff9999;
+    color: #cc0000;
+}
+.dn-info-message {
+    background: #e7f8f9;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
+
+/* Estilo para la tarjeta de producto que tenías */
+.prductCard1 {
+  border: 1px solid #25a2a9;
+  border-radius: 10px;
+  padding: 15px;
+  background: #f0ffff; 
+  box-shadow: 0 2px 6px rgba(37, 162, 169, 0.1);
+  margin-top: 15px; /* Separación de otros elementos */
+}
+
+/* ---------------- Footer y Responsive ---------------- */
+
+/* Footer */
+.dn-footer {
+  margin-top: 48px;
+  border-top: 1px solid rgba(10,89,96,0.04);
+  padding-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+.dn-footer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dn-avatar-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #02292b;
+  color: #fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+}
+
+/* Footer links */
+.dn-footer-right a {
+  margin-left: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+}
+.dn-footer-right a:hover { text-decoration: underline; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .dn-metrics { 
+    grid-template-columns: 1fr; 
+    gap: 15px;
+  }
+  .dn-header { 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 10px; 
+  }
+  .dn-header-actions { 
+    width: 100%; 
+    justify-content: flex-end; 
+  }
+  .dn-footer {
+    flex-direction: column-reverse;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  .dn-table th, .dn-table td {
+      padding: 10px 12px;
+      font-size: 13px;
+  }
+  .dn-table th:nth-child(2), .dn-table td:nth-child(2) {
+      display: none; /* Oculta columnas menos importantes en móvil */
+  }
+}
