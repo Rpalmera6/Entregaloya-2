@@ -44,6 +44,7 @@ def connect_to_db():
         user=os.getenv('MYSQL_USER'),
         password=os.getenv('MYSQL_PASSWORD', ''),
         database=os.getenv('MYSQL_DB'),
+        port=int(os.getenv('MYSQL_PORT')),
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=False
     )
