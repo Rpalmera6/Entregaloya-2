@@ -9,7 +9,7 @@ from flask_cors import CORS
 import pymysql
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-
+    
 # ----- Config -----
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -28,8 +28,8 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Orígenes permitidos (ajusta si tu front corre en otra url)
 ALLOWED_ORIGINS = {
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
     # agrega aquí otros orígenes si los usas, ej "http://localhost:5174"
 }
 
